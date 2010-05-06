@@ -16,12 +16,14 @@ void displayMenu()
 	char *testc;
 	int opcao;
 	
-	printf("Modo: \n");
-	printf("1. 640x480\n");
-	printf("2. 800x600\n");
-	printf("3. 1024x768\n");
-	printf("4. 1280x1024\n");
+	// Escolha da resolução do ecrã
+	printf("Modo:\n");
+	printf("[1] 640x480\n");
+	printf("[2] 800x600\n");
+	printf("[3] 1024x768\n");
+	printf("[4] 1280x1024\n");
 	scanf("%d", &choice);
+	printf("\n");
 	
 	switch(choice)
 	{
@@ -41,24 +43,57 @@ void displayMenu()
 			break;
 	}
 	
+	// Ecrã de boas-vindas
 	printf("Bem-vindo ao Quatro-em-Linha.\n\n");
 	printf("Escolha uma opcao, digitando o seu numero:\n");
 	
-	printf("1 - Novo Jogo\n");
-	printf("2 - Sair\n");
+	printf("[1] Novo Jogo\n");
+	printf("[2] Sair\n");
 	
 	int nlin;
 	int ncol;
 	
+	// Escolha do tamanho do tabuleiro
 	do{
 			int opcao = 0;
 			
 			scanf("%d", &opcao);
+			printf("\n");
 			
 			switch(opcao)
 			{
 				case 1:
-					printf("Defina o numero de linhas e colunas para o tabuleiro.\n");
+					printf("Escolha um tamanho para o tabuleiro:\n\n");
+					
+					switch(mode)
+					{
+						case 0x4101:
+							printf("[P]equeno (4x4)\n");
+							break;
+						
+						case 0x4103:
+							printf("[P]equeno (4x4)\n");
+							printf("[M]edio (6x6)\n");
+							break;
+						
+						case 0x4105:
+							printf("[P]equeno (4x4)\n");
+							printf("[M]edio (6x6)\n");
+							printf("[G]rande (8x8)\n\n");
+							break;
+						
+						case 0x4107:
+							printf("[P]equeno (4x4)\n");
+							printf("[M]edio (6x6)\n");
+							printf("[G]rande (8x8)\n\n");
+							break;
+					}
+					
+					
+					
+					int op_tabuleiro = 0;
+					
+					//scanf(%d, op_tabuleiro);
 					
 					do{
 					nlin = 0;
@@ -78,7 +113,7 @@ void displayMenu()
 	
 					testc = enter_graphics(mode, &map);
 		
-					displayBoard(tab, testc);
+					//displayBoard(tab, testc);
 	
 					if(opcao == 0)
 					leave_graphics(map);
@@ -90,9 +125,9 @@ void displayMenu()
 
 }
 
-void displayBoard(Board tab, char *testc)
+void displayBoard(int mode, char *testc)
 {
-	int opcao;
+/*	int opcao;
 	
 	int i;
 	int j;
@@ -103,12 +138,12 @@ void displayBoard(Board tab, char *testc)
 	
 	for(i = 0; i <= tab.ncol; i++)
 	{
-		draw_line(10+25*i,10,10+25*i,25*tab.nlin,5,testc);
+		draw_line(10+30*i,10,10+30*i,30*tab.nlin,1,testc);
 	}
 	
 	for(j = 0; j <= tab.nlin; j++)
 	{
-		draw_line(10,10+25*j,10,25*j,5,testc);
+		draw_line(10,10+30*j,10,30*j,1,testc);
 	}
 	
 	scanf("%d", &opcao);
@@ -116,4 +151,5 @@ void displayBoard(Board tab, char *testc)
 	clear_screen(1, testc);
 	
 	scanf("%d", &opcao);
+	*/
 }

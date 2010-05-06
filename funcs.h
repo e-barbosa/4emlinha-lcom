@@ -17,7 +17,7 @@ void displayMenu();
 
 Board createBoard(int lin, int col);
 
-void displayBoard(Board tab, char *testc);
+void displayBoard(int mode, char *testc);
 
 void play(int col);
 

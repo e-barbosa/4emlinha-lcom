@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#Esta página apresenta um pequeno resumo do que será o nosso trabalho e o planeamento temporal do mesmo.
 
 == Resumo ==
 

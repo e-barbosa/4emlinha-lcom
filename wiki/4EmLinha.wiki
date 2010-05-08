@@ -7,7 +7,7 @@ O nosso projecto basear-se-á no jogo do quatro em linha, cujo objectivo é que 
 
 = Planeamento do Projecto =
 
-|| *1ª Semana* || *Objectivos* |||| *Métodos* ||
-|| ||||a)mostrar menu do jogo||void displayMenu();||
-|| ||||b)criar e mostrar tabuleiro||void createBoard(int lin, int col);||
-|| ||||c)colocar peças no tabuleiro ||void displayBoard(Board);||
+|| *1ª Semana* || *Objectivos* || *Métodos* ||
+|| ||a)mostrar menu do jogo||void displayMenu();||
+|| ||b)criar e mostrar tabuleiro||void createBoard(int lin, int col);||
+|| ||c)colocar peças no tabuleiro ||void displayBoard(Board);||

@@ -1,4 +1,4 @@
-#Esta página apresenta um pequeno resumo do que será o nosso trabalho e o planeamento temporal do mesmo.
+Esta página apresenta um pequeno resumo do que será o nosso trabalho e o planeamento temporal do mesmo.
 
 == Resumo ==
 

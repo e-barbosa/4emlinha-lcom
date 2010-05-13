@@ -12,9 +12,9 @@ O nosso projecto basear-se-á no jogo do quatro em linha, cujo objectivo é que 
 || ||b) Criar e mostrar tabuleiro||void createBoard(int lin, int col);||
 || ||c) Colocar peças no tabuleiro ||void displayBoard(Board);||
 || ||  ||  ||
-|| *2ª Semana* ||a) Detectar quando as colunas estão preenchidas|| ||
-|| ||b) Alternar jogadas entre os jogadores|| ||
-|| ||c) Verificar condições de vitória || ||
+|| *2ª Semana* ||a)Criar sprites||Sprite *create_sprite(char*pic[], char *base);||
+|| ||b) Animar peças||int animate_pecas(Sprite *peca, char *base);||
+|| ||c) Detectar quando as colunas do tabuleiro estão parcialmente ou totalmente preenchidas ||bool is_full(int col);||
 || ||  ||  ||
 || *3ª Semana* ||a) Contar tempo limite da jogada através do RTC|| ||
 || ||b) Determinar pontuações dos jogadores|| ||

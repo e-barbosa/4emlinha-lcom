@@ -1,11 +1,7 @@
 #ifndef _VIDEO_GRAPHICS_H_
 #define _VIDEO_GRAPHICS_H_
 
-#include <stdio.h>
-#include <dpmi.h>
-#include <go32.h>
-#include <sys/nearptr.h>
-#include <stdlib.h>
+#include "kbc.h"
 
 /** @defgroup Video Video 
  * @{

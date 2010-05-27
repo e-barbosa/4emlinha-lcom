@@ -1,6 +1,15 @@
 #ifndef _UTYPES_H_
 #define _UTYPES_H_
 
+#include <stdio.h>
+#include <dpmi.h>
+#include <go32.h>
+#include <dos.h>
+#include <sys/nearptr.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
 /** @defgroup UserTypes UserTypes
  * @{
  *

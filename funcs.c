@@ -1,155 +1,176 @@
 #include "funcs.h"
 
+int modo_vis = 0x4105;
+Note alarm = {C4, 150};
+
+void kbd_isr();
+
 Board createBoard(int lin, int col)
 {
 	Board tabuleiro;
 	tabuleiro.nlin = lin;
 	tabuleiro.ncol = col;
+
 	
 	return tabuleiro;
 }
 
 void displayMenu()
 {
-	int choice;
-	int mode = 0x4101;
-	char *testc;
-	int opcao;
+	int op_menu;
+
+	printf("===================================\n");
+	printf("   Bem-vindo ao Quatro em Linha!   \n");
+	printf("===================================\n\n");
 	
-	// Escolha da resolução do ecrã
-	printf("Modo:\n");
-	printf("[1] 640x480\n");
-	printf("[2] 800x600\n");
-	printf("[3] 1024x768\n");
-	printf("[4] 1280x1024\n");
-	scanf("%d", &choice);
-	printf("\n");
-	
-	switch(choice)
-	{
-		case 1: 
-				mode=0x4101;
-				break;
-		case 2: 
-				mode=0x4103;
-				break;
-		case 3: 
-				mode=0x4105;
-				break;
-		case 4: 
-				mode=0x4107;
-				break;
-		default: 
-			break;
-	}
-	
-	// Ecrã de boas-vindas
-	printf("Bem-vindo ao Quatro-em-Linha.\n\n");
 	printf("Escolha uma opcao, digitando o seu numero:\n");
 	
 	printf("[1] Novo Jogo\n");
 	printf("[2] Sair\n");
+	scanf("%d", &op_menu);
 	
-	int nlin;
-	int ncol;
+	startGame();
+}
 	
-	// Escolha do tamanho do tabuleiro
-	do{
-			int opcao = 0;
-			
-			scanf("%d", &opcao);
-			printf("\n");
-			
-			switch(opcao)
-			{
-				case 1:
-					printf("Escolha um tamanho para o tabuleiro:\n\n");
-					
-					switch(mode)
-					{
-						case 0x4101:
-							printf("[P]equeno (4x4)\n");
-							break;
-						
-						case 0x4103:
-							printf("[P]equeno (4x4)\n");
-							printf("[M]edio (6x6)\n");
-							break;
-						
-						case 0x4105:
-							printf("[P]equeno (4x4)\n");
-							printf("[M]edio (6x6)\n");
-							printf("[G]rande (8x8)\n\n");
-							break;
-						
-						case 0x4107:
-							printf("[P]equeno (4x4)\n");
-							printf("[M]edio (6x6)\n");
-							printf("[G]rande (8x8)\n\n");
-							break;
-					}
-					
-					
-					
-					int op_tabuleiro = 0;
-					
-					//scanf(%d, op_tabuleiro);
-					
-					do{
-					nlin = 0;
-					printf("Linhas: ");
-					scanf("%d", &nlin);
-					}while(nlin < 1 || nlin > 15);
-					
-					do{
-					ncol = 0;
-					printf("Colunas: ");
-					scanf("%d", &ncol);
-					}while(ncol < 1 || ncol > 26);
-					
-					Board tab = createBoard(nlin, ncol);
+void startGame()
+{	
+	char *testc;
+	testc = enter_graphics(modo_vis, &map);
 	
-					__dpmi_meminfo map;
+	_go32_dpmi_seginfo old_kbd_irq;
+	install_asm_irq_handler(KBD_IRQ, kbd_isr, &old_kbd_irq);
 	
-					testc = enter_graphics(mode, &map);
-		
-					//displayBoard(tab, testc);
+	queueInit(&keys_queue);
 	
-					if(opcao == 0)
-					leave_graphics(map);
-					
-				case 2: exit(0);
-			}
-		}
-		while(opcao < 1 || opcao > 2);
+	disable_irq(KBD_IRQ);
+	enable_irq(KBD_IRQ);
 
+	Board tab = createBoard(6, 6);
+	displayBoard(tab, testc);
+
+	getchar();
+	
+	leave_graphics(map);
 }
 
-void displayBoard(int mode, char *testc)
+void displayBoard(Board tab, char *testc)
 {
-/*	int opcao;
+	char* video_base = enter_graphics(modo_vis, &map);	
+	clear_screen(0, video_base);
+	
+	Sprite *spr1 = create_sprite(celula_azul_xpm);
+	spr1->x = 0;
+	spr1->y = 60;
+	spr1->xspeed = 1;
+	spr1->yspeed = 0;	
+	draw_board(spr1, video_base, 6, 6);
+	
+	Sprite *spr2 = create_sprite(seta_xpm);
+	spr2->x = 30;
+	spr2->y = 0;
+	spr2->xspeed = 1;
+	spr2->yspeed = 0;	
+	draw_sprite(spr2, video_base);
+	
+	while(queueEmpty(&keys_queue));
+		
+	for(;;)
+	{
+		moveArrow(spr2, tab, video_base);
+	}
+}
+
+
+void moveArrow(Sprite *seta, Board tab, char* base)
+{	
+	int scancode;
+	scancode = queueGet(&keys_queue);
+	
+	switch(scancode)
+	{		
+		case 75:{ //esquerda	
+			
+			Bool mexe = true;
+			if(col-1<0)
+			{
+				mexe = false;
+				col = 0;
+			}
+			else
+				col--;
+			if(mexe)
+				move_sprite(seta, seta->x - 100, seta->y, base);
+			scancode = 75;}
+			break;
+			
+		case 77:{ //direita		
+			
+			Bool mexe = true;
+			if(col+1>5)
+			{
+				mexe = false;
+				col = 5;
+			}
+			else
+				col++;
+			
+			if(mexe)
+				move_sprite(seta, seta->x + 100, seta->y, base);
+			
+			scancode = 77;}
+			break;
+			
+		case 76: // colocar peca
+			play(tab, base);
+			
+			break;
+
+		default:
+			break;
+	}
+}
+
+
+
+void play(Board tab, char* base)
+{			
+	Sprite *sprite_jog;
+	
+	Player jog;
+	
+	jog.num = 1;
+	
+	switch(jog.num)
+	{
+		case 1:
+			sprite_jog = create_sprite(peca_amarela_xpm);
+			break;
+		case 2:
+			sprite_jog = create_sprite(peca_vermelha_xpm);
+			break;
+	}
+	
+	sprite_jog->x = 7+100*col;
 	
 	int i;
-	int j;
 	
-	draw_line(10,10,30*tab.ncol,10,1,testc);
-	
-	draw_line(10,10,10,30*tab.nlin,1,testc);
-	
-	for(i = 0; i <= tab.ncol; i++)
+	for(i = 0; i<tab.nlin; i++)
 	{
-		draw_line(10+30*i,10,10+30*i,30*tab.nlin,1,testc);
+		//nao esta a alterar o tabuleiro
+		if(tab.cells[col][i] != 1 && tab.cells[col][i] != 2)
+		{
+			tab.cells[col][i] = jog.num;
+			sprite_jog->y = 63+100*(tab.ncol-1-i);
+			draw_sprite(sprite_jog, base);
+			break;
+		}
+		
 	}
 	
-	for(j = 0; j <= tab.nlin; j++)
-	{
-		draw_line(10,10+30*j,10,30*j,1,testc);
-	}
 	
-	scanf("%d", &opcao);
-	
-	clear_screen(1, testc);
-	
-	scanf("%d", &opcao);
-	*/
+}
+
+void beep()
+{
+	play_note(&alarm);
 }

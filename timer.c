@@ -1,5 +1,4 @@
 #include <pc.h>
-
 #include "timer.h"
 
 void timer_init(int timer, int mode){

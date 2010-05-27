@@ -1,9 +1,7 @@
 #ifndef _INTS_H_
 #define _INTS_H_
 
-#include <dpmi.h>
-#include <go32.h>
-#include <dos.h>
+#include "timer.h"
 
 /** @defgroup Interrupts Interrupts
  * @{

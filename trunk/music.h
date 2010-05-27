@@ -1,6 +1,8 @@
 #ifndef _MUSIC_H_
 #define _MUSIC_H_
 
+#include "kbc.h"
+
 /** @defgroup Music Music
  * @{
  *

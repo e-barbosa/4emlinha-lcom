@@ -1,24 +1,55 @@
 #ifndef _FUNCS_H_
 #define _FUNCS_H_
 
-#include <stdio.h>
-#include <dpmi.h>
-#include <go32.h>
-#include <dos.h>
-#include "video-graphics.h"
+/*#include "video-graphics.h"
+#include "utypes.h"
+#include "kbc.h"
+#include "queue.h"
+#include "music.h"*/
+#include "sprite.h"
+#include "queue.h"
+#include "music.h"
+#include "pixmap.h"
+
+// Modo 1280x1024
+extern int modo_vis;
+
+Queue keys_queue;
+
+void programa(void);
+int scancode;
+
+extern Note alarm;
+
+// Coluna onde sera jogada a peca
+int col;
 
 typedef struct{
 	int nlin;
 	int ncol;
-	char **cells; 
+	int cells[6][6]; 
 } Board;
+
+typedef struct{
+	int num;
+	Bool actual;
+	int pont; 
+} Player;
+
+__dpmi_meminfo map;
 
 void displayMenu();
 
 Board createBoard(int lin, int col);
 
-void displayBoard(int mode, char *testc);
+void displayBoard(Board tab, char *testc);
 
-void play(int col);
+void startGame();
+
+void play(Board tab, char *testc);
+
+void beep();
+
+void moveArrow(Sprite *seta, Board tab, char* base);
 
 #endif

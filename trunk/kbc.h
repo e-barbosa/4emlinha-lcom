@@ -1,7 +1,7 @@
 #ifndef _KBC_H
 #define _KBC_H
 
-#include "utypes.h"
+#include "ints.h"
 
 /** @defgroup KeyboardController KeyboardController
  * @{
@@ -68,8 +68,8 @@
 /*@{*/ 
 #define INT_1    (1 << 0)  ///< Enable generation of interrupts from keyboard
 #define INT_12   (1 << 1)  ///< Enable generation of interrupts from mouse
-#define EN_KBD   (1 << 4)  ///< Enable keyboard interface (zero enables, one disables)
-#define EN_MOUSE (1 << 5)  ///< Enable mouse interface (zero enables, one disables)
+#define EN_KBD   (1 << 4)  ///< Enable keyboard interface
+#define EN_MOUSE (1 << 5)  ///< Enable mouse interface
 /*@}*/
  
 /** @name Commands to the Mouse
@@ -115,6 +115,17 @@
 #define X_SIGN(dt)        (((dt) & XSGN) == XSGN ? -1 : 1) ///< 1 if positive x movement, -1 if negative
 #define Y_SIGN(dt)        (((dt) & YSGN) == YSGN ? -1 : 1) ///< 1 if positive y movement, -1 if negative
 /*@}*/ 
+
+
+struct mousedata
+{
+	Byte Byte1;
+	Byte Byte2;
+	Byte Byte3;
+}__attribute__((__packed__));
+
+typedef struct mousedata MouseData;
+
 
 /** Initializes the KeyBoard Controller. If 'debug' is not 0 every
  * read or write to the KBC, together with the read or writed data is
@@ -197,7 +208,8 @@ void mouse_disable(void);
  * 
  * Uses write_kbc()
  */
-int  write_kbc_cmd( unsigned data);
+int write_kbc_cmd(unsigned data);
+int write_kbc_cmd_arg(unsigned data, unsigned arg);
 
 /** Returns 1 if a DOS mouse driver is installed, 0 if not.
  *  
@@ -214,7 +226,8 @@ int has_DOS_mouse_ISR();
  *
  * Uses write_kbc() and read_kbc()
  */
-int  write_kbc_data( unsigned data);
+int write_kbc_data(unsigned data);
+int write_kbc_data_arg(unsigned data, unsigned arg);
 
 /** Send 'cmd' to the mouse, prefacing it with the WriteMouse command
  * to the command register.
@@ -224,7 +237,8 @@ int  write_kbc_data( unsigned data);
  *
  * Uses write_kbc_cmd(), write_kbc() and read_kbc()
  */ 
-int  write_aux(unsigned cmd);
+int write_aux(unsigned cmd);
+int write_aux_arg(unsigned cmd, unsigned arg);
 
 /** Returns the data read a the data register.
 *
